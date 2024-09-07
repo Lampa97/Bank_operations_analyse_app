@@ -5,6 +5,7 @@ from typing import List
 import pandas as pd
 import requests
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 
@@ -14,11 +15,30 @@ STOCK_API_TOKEN = os.getenv("STOCK_API_KEY")
 
 
 
-def read_excel_file(path: str) -> List[dict]:
+def read_excel_file(path: str) -> pd.DataFrame:
     """Считывает информацию из excel файла"""
-    info = pd.read_excel(path)
-    return info.to_dict(orient="records")
+    return pd.read_excel(path)
+    # return info.to_dict(orient="records")
 
+def get_cards_info(df: pd.DataFrame) -> dict:
+    filtered_info = df.loc[(df['Номер карты'].notnull()) & (df['Статус'] == 'OK') & (df['Сумма платежа'] < 0)]
+    grouped_info = filtered_info.groupby('Номер карты')['Сумма операции'].sum()
+    dict_info = grouped_info.to_dict()
+    card_info = []
+    for card_number, total_sum in dict_info.items():
+        one_card_info = dict()
+        one_card_info['last_digits'] = card_number[1:]
+        one_card_info['total_spent'] = abs(total_sum)
+        one_card_info['cashback'] = round(abs(total_sum) / 100, 2)
+        card_info.append(one_card_info)
+    return card_info
+
+
+daf = read_excel_file('../data/operations.xlsx')
+
+ss = get_cards_info(daf)
+
+print(ss)
 
 def greeting(date: datetime.date) -> str:
     """Возвращает строку с приветствием в зависимости от времени суток"""
@@ -31,9 +51,6 @@ def greeting(date: datetime.date) -> str:
         return "Добрый день"
     else:
         return "Добрый вечер"
-
-def cards_info(transactions_info: List[dict]) -> List[dict]:
-    pass
 
 
 def fetch_currency_rate(currency_list: list) -> List[dict]:
