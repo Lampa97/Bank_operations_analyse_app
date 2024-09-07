@@ -37,7 +37,7 @@ def cards_info(transactions_info: List[dict]) -> List[dict]:
 
 
 def fetch_currency_rate(currency_list: list) -> List[dict]:
-    """Запрашивает и возвращает курс валюты по отношению к рублю"""
+    """Запрашивает и возвращает список курсов валют по отношению к рублю"""
     currency_rates_info = []
     for currency in currency_list:
         url = f"https://api.apilayer.com/fixer/convert?to=RUB&from={currency}&amount=1"
@@ -58,7 +58,7 @@ def fetch_currency_rate(currency_list: list) -> List[dict]:
 
 
 def fetch_s_p_500_stock(stock_list: list) -> List[dict]:
-    """Обращается к API и возвращает цену акции компании"""
+    """Обращается к API и возвращает список цен акций заданных компаний"""
     stock_prices_info = []
     for stock in stock_list:
         url = f"https://api.marketstack.com/v1/intraday?access_key={STOCK_API_TOKEN}"
