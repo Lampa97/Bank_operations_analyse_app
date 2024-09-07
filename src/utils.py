@@ -39,7 +39,6 @@ def fetch_currency_rate(currency: str) -> float | bool:
     headers = {"apikey": CURRENCY_API_TOKEN}
 
     response = requests.get(url, headers=headers)
-
     status_code = response.status_code
     if status_code == 200:
         result = response.json()

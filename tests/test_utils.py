@@ -1,9 +1,9 @@
 from datetime import datetime
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import pytest
 
-from src.utils import greeting, read_excel_file
+from src.utils import greeting, read_excel_file, fetch_s_p_500_stock, fetch_currency_rate
 
 
 def test_read_excel_file(df_one_transaction, one_transaction):
@@ -23,3 +23,37 @@ def test_read_excel_file(df_one_transaction, one_transaction):
 )
 def test_greeting(date, result):
     assert greeting(date) == result
+
+
+def test_fetch_currency_rate():
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {'result': 70.0}
+
+    with patch('requests.get', return_value=mock_response):
+        result = fetch_currency_rate('USD')
+        assert result == 70.0
+
+def test_fetch_currency_rate_false():
+    mock_response = Mock()
+    mock_response.status_code = 404
+    mock_response.return_value = None
+
+    with patch('requests.get', return_value = mock_response):
+        assert fetch_currency_rate('USS') == False
+
+def test_fetch_s_p_500_stock():
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {'data':[{'open': 300.0}]}
+
+    with patch('requests.get', return_value = mock_response):
+        assert fetch_s_p_500_stock('TSLA') == 300.0
+
+def test_fetch_s_p_500_stock_false():
+    mock_response = Mock()
+    mock_response.status_code = 404
+    mock_response.return_value = None
+
+    with patch('requests.get', return_value = mock_response):
+        assert fetch_currency_rate('EPPL') == False
