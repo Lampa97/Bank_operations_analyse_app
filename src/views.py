@@ -1,5 +1,7 @@
 import datetime
 
+from src.utils import greeting
+
 date_now = datetime.datetime.now()
 
 
