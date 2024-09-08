@@ -5,6 +5,7 @@ import pandas
 import pytest
 
 from src.utils import fetch_currency_rate, fetch_s_p_500_stock, get_cards_info, get_top_5_transactions, greeting
+from tests.conftest import top_5_transactions
 
 
 @pytest.mark.parametrize(
@@ -59,3 +60,6 @@ def test_fetch_s_p_500_stock_false():
 
 def test_get_cards_info(df_one_transaction):
     assert get_cards_info(df_one_transaction) == [{"last_digits": "5678", "total_spent": 3000.0, "cashback": 30.0}]
+
+def test_get_top_5_transactions(df_5_transactions, top_5_transactions):
+    assert get_top_5_transactions(df_5_transactions) == top_5_transactions

@@ -22,5 +22,6 @@ def greetings_info(date: str) -> None:
     user_greeting["top_transactions"] = get_top_5_transactions(DATAFRAME)
     user_greeting["currency_rates"] = fetch_currency_rate(USER_CURRENCIES)
     user_greeting["stock_prices"] = fetch_s_p_500_stock(USER_STOCKS)
+
     with open("../user_greeting.json", "w", encoding="utf-8") as json_file:
         json.dump(user_greeting, json_file, indent=4, ensure_ascii=False)
