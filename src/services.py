@@ -12,8 +12,6 @@ console_handler.setFormatter(file_formatter)
 logger.addHandler(console_handler)
 logger.setLevel(logging.DEBUG)
 
-DATAFRAME = pd.read_excel('../data/operations.xlsx')
-
 
 def individual_transfer_search(df: pd.DataFrame) -> json:
     """Функция поиска транзакций по наличию Фамилии и заглавной букве имени в категории 'Переводы'"""
