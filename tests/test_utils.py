@@ -1,24 +1,19 @@
 from datetime import datetime
 from unittest.mock import Mock, patch
 
+import pandas
 import pytest
 
-from src.utils import fetch_currency_rate, fetch_s_p_500_stock, greeting, read_excel_file
-
-
-def test_read_excel_file(df_one_transaction, one_transaction):
-    with patch("pandas.read_excel", return_value=df_one_transaction):
-        result = read_excel_file("path")
-        assert result == one_transaction
+from src.utils import fetch_currency_rate, fetch_s_p_500_stock, get_cards_info, get_top_5_transactions, greeting
 
 
 @pytest.mark.parametrize(
     "date, result",
     [
-        (datetime(2022, 3, 8, 5, 45, 0), "Доброй ночи"),
-        (datetime(2022, 3, 8, 8, 45, 0), "Доброе утро"),
-        (datetime(2022, 3, 8, 15, 45, 0), "Добрый день"),
-        (datetime(2022, 3, 8, 18, 45, 0), "Добрый вечер"),
+        ("2022-03-08 5:45:0", "Доброй ночи"),
+        ("2022-03-08 8:45:0", "Доброе утро"),
+        ("2022-03-08 13:45:0", "Добрый день"),
+        ("2022-03-08 19:45:0", "Добрый вечер"),
     ],
 )
 def test_greeting(date, result):
@@ -60,3 +55,7 @@ def test_fetch_s_p_500_stock_false():
 
     with patch("requests.get", return_value=mock_response):
         assert fetch_currency_rate(["EPPL"]) == []
+
+
+def test_get_cards_info(df_one_transaction):
+    assert get_cards_info(df_one_transaction) == [{"last_digits": "5678", "total_spent": 3000.0, "cashback": 30.0}]
