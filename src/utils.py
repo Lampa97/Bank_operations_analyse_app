@@ -1,11 +1,13 @@
 import datetime
+import logging
 import os
 from typing import List
 
 import pandas as pd
 import requests
 from dotenv import load_dotenv
-import logging
+
+from tests.conftest import one_transaction
 
 load_dotenv()
 
@@ -13,32 +15,42 @@ CURRENCY_API_TOKEN = os.getenv("CURRENCY_API_KEY")
 STOCK_API_TOKEN = os.getenv("STOCK_API_KEY")
 
 
-
-
 def read_excel_file(path: str) -> pd.DataFrame:
     """Считывает информацию из excel файла"""
     return pd.read_excel(path)
     # return info.to_dict(orient="records")
 
-def get_cards_info(df: pd.DataFrame) -> dict:
-    filtered_info = df.loc[(df['Номер карты'].notnull()) & (df['Статус'] == 'OK') & (df['Сумма платежа'] < 0)]
-    grouped_info = filtered_info.groupby('Номер карты')['Сумма операции'].sum()
+
+def get_cards_info(df: pd.DataFrame) -> List[dict]:
+    filtered_info = df.loc[(df["Номер карты"].notnull()) & (df["Статус"] == "OK") & (df["Сумма платежа"] < 0)]
+    grouped_info = filtered_info.groupby("Номер карты")["Сумма операции"].sum()
     dict_info = grouped_info.to_dict()
     card_info = []
     for card_number, total_sum in dict_info.items():
         one_card_info = dict()
-        one_card_info['last_digits'] = card_number[1:]
-        one_card_info['total_spent'] = abs(total_sum)
-        one_card_info['cashback'] = round(abs(total_sum) / 100, 2)
+        one_card_info["last_digits"] = card_number[1:]
+        one_card_info["total_spent"] = abs(total_sum)
+        one_card_info["cashback"] = round(abs(total_sum) / 100, 2)
         card_info.append(one_card_info)
     return card_info
 
 
-daf = read_excel_file('../data/operations.xlsx')
+def get_top_5_transactions(df: pd.DataFrame) -> List[dict]:
+    filtered_info = df.loc[df["Статус"] == "OK"]
+    sorted_info = filtered_info.sort_values("Сумма операции", ignore_index=True)
+    top_5_transactions = sorted_info.head()
+    dict_info = top_5_transactions.to_dict()
+    top_5_transactions_list = []
+    for i in range(5):
+        one_transaction = dict()
+        one_transaction["date"] = dict_info["Дата платежа"][i]
+        one_transaction["amount"] = dict_info["Сумма платежа"][i]
+        one_transaction["category"] = dict_info["Категория"][i]
+        one_transaction["description"] = dict_info["Описание"][i]
+        top_5_transactions_list.append(one_transaction)
+    top_5_transactions_list.sort(key=lambda x: x["amount"])
+    return top_5_transactions_list
 
-ss = get_cards_info(daf)
-
-print(ss)
 
 def greeting(date: datetime.date) -> str:
     """Возвращает строку с приветствием в зависимости от времени суток"""
