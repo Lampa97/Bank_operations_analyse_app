@@ -21,7 +21,7 @@ def individual_transfer_search(df: pd.DataFrame) -> json:
     individual_transfer_list = []
     for index, row in filtered_info.iterrows():
         current_row = row.to_dict()
-        if re.search(pattern, current_row['Описание']):
+        if re.search(pattern, current_row['Описание']): # ищем имя в соответствии с паттерном
             individual_transfer_list.append(current_row)
             logger.info(f"Найдена транзакция с именем {current_row['Описание']} в описании")
     return json.dumps(individual_transfer_list, ensure_ascii=False)
