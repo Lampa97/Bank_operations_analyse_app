@@ -1,23 +1,29 @@
 import datetime
-from typing import Optional
 from functools import wraps
+from typing import Optional, Callable, Any
+
 import pandas as pd
 
 from src.logger import logger_setup
 
 logger = logger_setup()
 
-def file_writer(filename='filtered_operations.csv'):
+
+def file_writer(filename: str = "filtered_operations.csv") -> Callable:
     """Декоратор, который записывает результат фильтрации в csv-файл"""
-    def decorator(func):
+
+    def decorator(func: Callable) -> Callable:
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             result = func(*args, **kwargs)
-            result.to_csv(f'../data/{filename}', encoding='utf-8')
+            result.to_csv(f"../data/{filename}", encoding="utf-8")
             logger.info(f"Результат работы функции {func.__name__} записан в файл {filename}")
             return result
+
         return wrapper
+
     return decorator
+
 
 @file_writer()
 def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
@@ -46,7 +52,3 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     del filtered_info["TimeStamp"]
     logger.info("Удалили столбец 'TimeStamp'")
     return filtered_info
-
-file = pd.read_excel('../data/operations.xlsx')
-
-spending_by_category(file, 'Переводы', '20.03.2019')
