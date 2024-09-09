@@ -41,7 +41,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     logger.info("Создали столбец 'Прошло дней'")
     filtered_info = transactions.loc[
         (transactions["Категория"] == category)
-        & (transactions["Прошло дней"] < 90)
+        & (transactions["Прошло дней"] <= 90)
         & (transactions["Прошло дней"] >= 0)
     ]
     logger.info(f"Отфильтровали транзакции по категории '{category}' за последние 3 месяца")
