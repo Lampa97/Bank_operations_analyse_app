@@ -1,7 +1,5 @@
-from datetime import datetime
 from unittest.mock import Mock, patch
 
-import pandas
 import pytest
 
 from src.utils import fetch_currency_rate, fetch_s_p_500_stock, get_cards_info, get_top_5_transactions, greeting
