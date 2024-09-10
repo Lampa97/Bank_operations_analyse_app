@@ -1,5 +1,4 @@
 import datetime
-import logging
 import os
 from typing import List
 
@@ -7,12 +6,9 @@ import pandas as pd
 import requests
 from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
-console_handler = logging.StreamHandler()
-file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
-console_handler.setFormatter(file_formatter)
-logger.addHandler(console_handler)
-logger.setLevel(logging.DEBUG)
+from src.logger import logger_setup
+
+logger = logger_setup()
 
 
 load_dotenv()
