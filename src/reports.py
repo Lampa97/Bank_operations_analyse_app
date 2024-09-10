@@ -16,7 +16,7 @@ def file_writer(filename: str = "filtered_operations.csv") -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             result = func(*args, **kwargs)
-            result.to_csv(f'data/{filename}', encoding="utf-8")
+            result.to_csv(f"data/{filename}", encoding="utf-8")
             logger.info(f"Результат работы функции {func.__name__} записан в файл {filename}")
             return result
 

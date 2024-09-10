@@ -1,5 +1,6 @@
-import re
 import json
+import re
+
 from src.reports import spending_by_category
 from src.services import individual_transfer_search
 from src.views import DATAFRAME, DATE_NOW_STRING, greetings_info

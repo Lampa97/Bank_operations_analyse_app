@@ -23,5 +23,3 @@ def greetings_info(date: str) -> dict:
     user_greeting["currency_rates"] = fetch_currency_rate(USER_CURRENCIES)
     user_greeting["stock_prices"] = fetch_s_p_500_stock(USER_STOCKS)
     return user_greeting
-
-

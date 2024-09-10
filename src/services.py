@@ -1,6 +1,6 @@
-import json
 import re
 from typing import List
+
 import pandas as pd
 
 from src.logger import logger_setup
@@ -20,4 +20,3 @@ def individual_transfer_search(df: pd.DataFrame) -> List[dict]:
             individual_transfer_list.append(current_row)
             logger.info(f"Найдена транзакция с именем {current_row['Описание']} в описании")
     return individual_transfer_list
-

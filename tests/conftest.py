@@ -25,6 +25,7 @@ def df_one_transaction():
     ]
     return pd.DataFrame(info)
 
+
 @pytest.fixture
 def df_5_transactions():
     data = [
@@ -112,44 +113,21 @@ def df_5_transactions():
             "Бонусы (включая кэшбэк)": 0,
             "Округление на инвесткопилку": 0,
             "Сумма операции с округлением": 500.0,
-        }
+        },
     ]
     return pd.DataFrame(data)
+
 
 @pytest.fixture
 def top_5_transactions():
     return [
-    {
-      "date": "01.01.2018",
-      "amount": -3000.00,
-      "category": "Переводы",
-      "description": "Линзомат ТЦ Юность"
-    },
-    {
-      "date": "02.01.2018",
-      "amount": -2500.00,
-      "category": "Супермаркеты",
-      "description": "Лента"
-    },
-    {
-      "date": "03.01.2018",
-      "amount": -2000.00,
-      "category": "Различные товары",
-      "description": "Ozon.ru"
-    },
-    {
-      "date": "04.01.2018",
-      "amount": -1000.00,
-      "category": "ЖКХ",
-      "description": "ЖКУ Квартира"
-    },
-    {
-      "date": "05.01.2018",
-      "amount": -500.00,
-      "category": "Бонусы",
-      "description": "Кешбэк за обычные покупки"
-    }
-  ]
+        {"date": "01.01.2018", "amount": -3000.00, "category": "Переводы", "description": "Линзомат ТЦ Юность"},
+        {"date": "02.01.2018", "amount": -2500.00, "category": "Супермаркеты", "description": "Лента"},
+        {"date": "03.01.2018", "amount": -2000.00, "category": "Различные товары", "description": "Ozon.ru"},
+        {"date": "04.01.2018", "amount": -1000.00, "category": "ЖКХ", "description": "ЖКУ Квартира"},
+        {"date": "05.01.2018", "amount": -500.00, "category": "Бонусы", "description": "Кешбэк за обычные покупки"},
+    ]
+
 
 @pytest.fixture
 def individual_transactions():
@@ -238,13 +216,15 @@ def individual_transactions():
             "Бонусы (включая кэшбэк)": 0,
             "Округление на инвесткопилку": 0,
             "Сумма операции с округлением": 500.0,
-        }
+        },
     ]
     return pd.DataFrame(data)
 
+
 @pytest.fixture
 def list_individual_transaction():
-    return [{
+    return [
+        {
             "Дата операции": "01.01.2018 12:49:53",
             "Дата платежа": "01.01.2018",
             "Номер карты": "*5678",
@@ -277,14 +257,16 @@ def list_individual_transaction():
             "Бонусы (включая кэшбэк)": 0,
             "Округление на инвесткопилку": 0,
             "Сумма операции с округлением": 2000.0,
-        }]
+        },
+    ]
+
 
 @pytest.fixture
 def df_5_transactions_for_report():
     data = [
         {
             "Дата операции": "01.10.2018 12:49:53",
-            "Дата платежа": "01.01.2018",
+            "Дата платежа": "01.10.2018",
             "Номер карты": "*5678",
             "Статус": "OK",
             "Сумма операции": -3000.0,
@@ -366,13 +348,15 @@ def df_5_transactions_for_report():
             "Бонусы (включая кэшбэк)": 0,
             "Округление на инвесткопилку": 0,
             "Сумма операции с округлением": 500.0,
-        }
+        },
     ]
     return pd.DataFrame(data)
 
+
 @pytest.fixture
 def df_filtered_by_category():
-    data = [{
+    data = [
+        {
             "Дата операции": "01.01.2018 12:49:53",
             "Дата платежа": "03.01.2018",
             "Номер карты": "*5678",
@@ -405,5 +389,6 @@ def df_filtered_by_category():
             "Бонусы (включая кэшбэк)": 0,
             "Округление на инвесткопилку": 0,
             "Сумма операции с округлением": 1000.0,
-        }]
+        },
+    ]
     return pd.DataFrame(data)
