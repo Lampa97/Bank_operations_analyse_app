@@ -1,6 +1,6 @@
 import datetime
 from functools import wraps
-from typing import Optional, Callable, Any
+from typing import Any, Callable, Optional
 
 import pandas as pd
 
@@ -16,7 +16,7 @@ def file_writer(filename: str = "filtered_operations.csv") -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             result = func(*args, **kwargs)
-            result.to_csv(f"../data/{filename}", encoding="utf-8")
+            result.to_csv(f'data/{filename}', encoding="utf-8")
             logger.info(f"Результат работы функции {func.__name__} записан в файл {filename}")
             return result
 
@@ -40,7 +40,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     transactions["Прошло дней"] = (transactions["Сегодня"] - transactions["TimeStamp"]).dt.days
     logger.info("Создали столбец 'Прошло дней'")
     filtered_info = transactions.loc[
-        (transactions["Категория"] == category)
+        (transactions["Категория"] == category.capitalize())
         & (transactions["Прошло дней"] <= 90)
         & (transactions["Прошло дней"] >= 0)
     ]

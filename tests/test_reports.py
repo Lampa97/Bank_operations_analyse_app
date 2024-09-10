@@ -1,9 +1,6 @@
 from src.reports import spending_by_category, file_writer
+import pandas
 
-
-def test_spending_by_category():
-    pass
-
-def test_file_writer():
-    pass
-
+@file_writer()
+def test_spending_by_category(df_5_transactions_for_report, df_filtered_by_category):
+    assert spending_by_category(df_5_transactions_for_report, 'Переводы') == pandas.DataFrame()
