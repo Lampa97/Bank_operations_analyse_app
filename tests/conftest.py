@@ -1,5 +1,3 @@
-import json
-
 import pandas as pd
 import pytest
 
@@ -245,8 +243,8 @@ def individual_transactions():
     return pd.DataFrame(data)
 
 @pytest.fixture
-def json_individual_transaction():
-    data = [{
+def list_individual_transaction():
+    return [{
             "Дата операции": "01.01.2018 12:49:53",
             "Дата платежа": "01.01.2018",
             "Номер карты": "*5678",
@@ -280,7 +278,6 @@ def json_individual_transaction():
             "Округление на инвесткопилку": 0,
             "Сумма операции с округлением": 2000.0,
         }]
-    return json.dumps(data, ensure_ascii=False)
 
 @pytest.fixture
 def df_5_transactions_for_report():

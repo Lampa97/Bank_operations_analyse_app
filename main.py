@@ -1,5 +1,5 @@
 import re
-
+import json
 from src.reports import spending_by_category
 from src.services import individual_transfer_search
 from src.views import DATAFRAME, DATE_NOW_STRING, greetings_info
@@ -20,9 +20,14 @@ def main() -> None:
             date = input_date
         else:
             date = DATE_NOW_STRING
-        greetings_info(date)
+        greeting = greetings_info(date)
+        with open("data/user_greeting.json", "w", encoding="utf-8") as json_file:
+            json.dump(greeting, json_file, indent=4, ensure_ascii=False)
     elif user_choice == "2":
-        individual_transfer_search(DATAFRAME)
+        result = individual_transfer_search(DATAFRAME)
+        with open("data/individual_transfer.json", "w", encoding="utf-8") as json_file:
+            json.dump(result, json_file, ensure_ascii=False, indent=4)
+
     elif user_choice == "3":
         user_category = input("Введите категорию по которой вы хотите отфильтровать транзакции: \n")
         input_date = input(

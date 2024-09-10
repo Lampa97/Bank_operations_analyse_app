@@ -14,7 +14,7 @@ DATAFRAME = pd.read_excel("data/operations.xlsx")
 DATE_NOW_STRING = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def greetings_info(date: str) -> None:
+def greetings_info(date: str) -> dict:
     """Записывает информацию о пользователе для отображения на главной странице"""
     user_greeting = dict()
     user_greeting["greeting"] = greeting(date)
@@ -22,6 +22,6 @@ def greetings_info(date: str) -> None:
     user_greeting["top_transactions"] = get_top_5_transactions(DATAFRAME)
     user_greeting["currency_rates"] = fetch_currency_rate(USER_CURRENCIES)
     user_greeting["stock_prices"] = fetch_s_p_500_stock(USER_STOCKS)
+    return user_greeting
 
-    with open("data/user_greeting.json", "w", encoding="utf-8") as json_file:
-        json.dump(user_greeting, json_file, indent=4, ensure_ascii=False)
+
